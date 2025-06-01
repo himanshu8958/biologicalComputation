@@ -5,16 +5,14 @@ from itertools import combinations
 from collections import defaultdict
 from networkx.algorithms.graph_hashing import weisfeiler_lehman_graph_hash
 
-# from networkx.algorithms.isomorphism import DiGraphMatcher
-#from networkx.algorithms.isomorphism import GraphMatcher
-
+#Given a graph, n, returns all sub-graphs of size n.
 def subGraphs(graph, n) : 
     nodes = graph.nodes;
     allEdges = graph.edges;
     edgeNo =defaultdict();
     for idx, e in enumerate(allEdges):
         edgeNo[idx] = e;
-    graphs = [];
+        graphs = [];
 
     for i in range(1, 2 ** len(edgeNo)):
         edges = [edgeNo[j] for j in range(len(edgeNo)) 
@@ -28,16 +26,20 @@ def subGraphs(graph, n) :
 
     return graphs;
 
+#given a set of graphs returns a list of (lists, which are isometric
+# to each other). This method uses weisfeiler lehman graph hash, which
+# is different if the 2 graphs are not isometric. And there are strong
+# gurantees that the hash will be the same incase he graphs are 
+#isometric.
 def getIsometricEquivalanceClasses(graphs): 
 
-    # Step 1: Hash graphs to reduce comparisons
+
     hash_buckets = defaultdict(list)
     
     for G in graphs:
         h = weisfeiler_lehman_graph_hash(G)
         hash_buckets[h].append(G)
 
-    # Step 2: Within each bucket, group by exact isomorphism
     isomorphic_groups = []
     still_ungrouped = []
     for bucket in hash_buckets.values():
@@ -53,10 +55,7 @@ def getIsometricEquivalanceClasses(graphs):
                     still_ungrouped.append(other)
             isomorphic_groups.append(group)
             ungrouped = still_ungrouped
-    """ while still_ungrouped:
-        base = still_ungrouped.pop
- """
-
+ 
     return isomorphic_groups
 
 
