@@ -1,0 +1,102 @@
+\documentclass{article}
+\usepackage{enumitem}
+\usepackage{algpseudocode}
+\usepackage{amsfonts}
+\usepackage{subfiles}
+\usepackage{xcolor}
+\usepackage{txfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{lmodern}
+\usepackage{verbatim}
+\usepackage{listings}
+
+\newcommand\nat{\mathbb{N}}
+\newcommand\eventually{\lozenge}
+\newcommand\always{\square}
+%% \newcommand\nextS{\lozenge}
+\newcommand\nextS{\medcirc}
+\newcommand\previousS{\circleddash}
+\newcommand\implies{\Rightarrow}
+\newcommand\andS{\wedge}
+\newcommand\orS{\vee}
+\newcommand\until{\mathit{U}}
+\newcommand\weakUntil{\mathit{W}}
+\newcommand\since{\mathit{S}}
+\newcommand\someTimeInPast{\vartriangle}
+\newcommand\muller{\mathcal{M}}
+\newcommand\buchi{\mathcal{B}} 
+\newcommand{\doesNotWork}[1]{{\color{gray} {#1}}}
+\title{Biological Computation\\ Assignment 1}
+
+\author{Himanshu Arora}
+
+\begin{document}
+\maketitle
+
+\section*{Explanation of code}
+The main work flow in Q1 is :
+\begin{enumerate}
+\item Generate all connected graphs (not digraphs) with n nodes.
+\item Then I get the isomorphic equivalence classes from the previous step.
+\item The graphs from the previous step are used to generate
+  digraphs. If there is an edge $(u,v)$ is in the original graph, then
+  there must exit 3 graphs, such that there is an edge from $u$ to $v$
+  in one graph, an edge in the opposite direction in the second graph
+  and in the third graph, both edges exist in the third graph.\\
+  
+  $\forall
+  G, u, v. \exists G_1, G_2, G_3. (u, v) \in G \rightarrow (u, v) \in
+  G_1 \wedge (v, u) \in G_2 \wedge (u, v) \in G_3 \wedge (v,u) \in G_3
+  $.
+
+\item The final step is to generate equivalence classes of graphs based
+  on isomorphism.
+  \begin{enumerate}
+   \item I use the Weisfeiler Lehman Graph hash to generate a hash
+     value for each graph. This hash value has the property that if 2
+     graphs have different hash values they are guaranteed to be
+     non-isomorphic. But in case their has value is identical there is
+     a strong probability that they are isomorphic. 
+   \item I use the hash value above to make buckets. Then within each
+     bucket I check for isomorphism to confirm.
+   \item This hashing technique reduced the number of isomorphic tests
+     from quadratic to linear. 
+  \end{enumerate}
+  
+\end{enumerate}
+
+\section*{Declaration}
+I did not use chat gpt to write the code but I took suggestion to
+design the workflow and chatGpt mentioned Weisfeiler Lehman Graph hash
+algorithm.
+
+\section*{Question 1}
+
+\begin{enumerate}[label=\alph*), start=2]
+\item
+\begin{figure}[hp]
+  \verbatiminput{1.out}
+  \caption{Q1, output for $n = 1$ }
+\end{figure}
+
+\begin{figure}[hp]
+  \verbatiminput{2.out}
+  \caption{Q1, output for $n = 2$ }
+\end{figure}
+
+For $n =3$ and $n= 4$, please see \texttt{3.out} and \texttt{4.out}.
+\item  My implementation terminates for \texttt{n = 4} in an hour.
+\item \texttt{n = 4} is the maximum termination that I have
+  witnessed. For \texttt{ n = 5} the program does not terminate within
+  10 hours. 
+\end{enumerate}
+
+\section*{Question 2}
+I generate all the sub graphs of the given graph and then I find the
+equivalence classes over the set of graphs based on isomorphism.
+
+The output is only the sub-graphs of size n. 
+\end{document}
+

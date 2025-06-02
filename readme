@@ -1,0 +1,3 @@
+For q1, run python Q1.py n. where n is a whole number
+For q2, run python Q2.py <file> . where <file> value of n in first line followed y the graph.
+see test for an example file. 
