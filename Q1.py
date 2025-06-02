@@ -5,9 +5,7 @@ from itertools import combinations
 from collections import defaultdict
 from networkx.algorithms.graph_hashing import weisfeiler_lehman_graph_hash
 
-# from networkx.algorithms.isomorphism import DiGraphMatcher
-from networkx.algorithms.isomorphism import GraphMatcher
-
+#returns all connected graphs with n vertices.
 def connectedGraphs(n) : 
     nodes = list(range(n));
     allEdges = list(combinations(nodes, 2));
@@ -26,10 +24,7 @@ def connectedGraphs(n) :
             graphs.append(graph);
 
     return graphs;
-
-def isIsometric(a, b):
-    return nx.is_isomorphic(a,b);
-
+    
 def getIsometricEquivalanceClasses(graphs): 
 
     # Step 1: Hash graphs to reduce comparisons
@@ -93,7 +88,6 @@ def main() :
     for x in e:
         """ print ("original graph",x.edges); """
         directedGraphs.extend( generate_all_directed_versions(x[0]));
-    
     isometric = getIsometricEquivalanceClasses(directedGraphs);
     
     print("n=", arg)
